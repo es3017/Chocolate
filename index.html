@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chocolate Candy</title>
+    <style>
+        .chocolate-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+            display: inline-block;
+        }
+        .chocolate-card img {
+            max-width: 100%;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chocolate Candy</h1>
+
+    <div id="chocolate-cards">
+    </div>
+
+    <button id="random-sample-button">Get a Free Sample</button>
+    <div id="sample-code" class="hidden">
+        <p>Your free sample: <span id="sample-code-text"></span></p>
+    </div>
+
+    <button id="show-calories-button">Show Calories and Ingredients</button>
+    <div id="chocolate-info" class="hidden">
+        <p>Calories: <span id="calories"></span></p>
+        <p>Ingredients: <span id="ingredients"></span></p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let chocs = [
+            {
+                chocName: "Plain Milk",
+                description: "Smooth milk chocolate",
+                calories: 90,
+                ingredients: "Cocoa butter, Milk, Cream",
+                img: "plain_milk.jpg",
+            },
+            {
+                chocName: "Plain Dark",
+                description: "Smooth dark chocolate",
+                calories: 100,
+                ingredients: "Cocoa butter, Milk, Cream",
+                img: "plain_dark.jpg",
+            },
+            {
+                chocName: "Plain Hybrid",
+                description: "Smooth milk chocolate and dark chocolate side by side",
+                calories: 105,
+                ingredients: "Cocoa butter, Milk, Cream",
+                img: "plain_hybrid.jpg",
+            },
+            {
+                chocName: "Nut Butter Cup",
+                description: "Smooth milk chocolate with peanut butter filling",
+                calories: 130,
+                ingredients: "Cocoa butter, Milk, Cream",
+                img: "nutter_butter.jpg",
+            },
+            {
+                chocName: "Bailey's Cup",
+                description: "Smooth milk chocolate with Bailey's Irish Cream filling",
+                calories: 90,
+                ingredients: "Cocoa butter, Milk, Cream",
+                img: "baileys_cup.jpg",
+            },
+            {
+                chocName: "Rum Barrel",
+                description: "Smooth dark chocolate with rum-coconut filling",
+                calories: 110,
+                ingredients: "Cocoa butter, Milk, Cream",
+                img: "rum_barrel.jpg",
+            },
+            {
+                chocName: "Orange Fondant",
+                description: "Dark chocolate with orange fondant filling",
+                calories: 125,
+                ingredients: "Cocoa butter, Milk, Cream",
+                img: "orange_fondant.jpg",
+            },
+            {
+                chocName: "Cappuccino Cup",
+                description: "Dark chocolate with coffee cream filling",
+                calories: 130,
+                ingredients: "Cocoa butter, Milk, Cream",
+                img: "cappuccino_cup.jpg",
+            },
+            {
+                chocName: "Pistachio Diamond",
+                description: "Milk chocolate with almond butter filling and large pistachio",
+                calories: 140,
+                ingredients: "Cocoa butter, Milk, Cream",
+                img: "pistachio_diamond.jpg",
+            },
+            {
+                chocName: "Toffee Crunch",
+                description: "Dark chocolate with soft toffee filling, rock salt, and peanut brittle",
+                calories: 130,
+                ingredients: "Cocoa butter, Milk, Cream",
+                img: "toffee_crunch.jpg",
+            },
+
+        ];
+
+        $(document).ready(function () {
+            let chocolateCards = '';
+            chocs.forEach((chocolate, index) => {
+                chocolateCards += `
+                    <div class="chocolate-card" id="chocolate-card-${index}">
+                        <img src="${chocolate.img}" alt="${chocolate.chocName}">
+                        <h2>${chocolate.chocName}</h2>
+                    </div>
+                `;
+            });
+            $('#chocolate-cards').html(chocolateCards);
+
+            $('#random-sample-button').click(function () {
+                const randomIndex = Math.floor(Math.random() * chocs.length);
+                $(`#chocolate-card-${randomIndex}`).css('background-color', 'yellow');
+                const sampleCode = Math.floor(Math.random() * 50) + 1;
+                $('#sample-code-text').text(sampleCode);
+                $('#sample-code').removeClass('hidden');
+            });
+
+            $('#show-calories-button').click(function () {
+                $('#calories').text('');
+                $('#ingredients').text('');
+                $('#chocolate-info').addClass('hidden');
+                const selectedCard = $('div.chocolate-card').filter(function () {
+                    return $(this).css('background-color') === 'rgb(255, 255, 0)';
+                });
+                if (selectedCard.length > 0) {
+                    const selectedCardIndex = selectedCard.attr('id').split('-')[2];
+                    const selectedChocolate = chocs[selectedCardIndex];
+                    $('#calories').text(selectedChocolate.calories);
+                    $('#ingredients').text(selectedChocolate.ingredients);
+                    $('#chocolate-info').removeClass('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
